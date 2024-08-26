@@ -38,4 +38,6 @@ int main() {
   assert(batteryIsOk(25, 70, 0.7) == true);
   assert(batteryIsOk(50, 85, 0) == false);
   assert(batteryIsOk(-1, 15, 0) == false);
+  assert(batteryIsOk(10,10,0.7)== false);
+  assert(batteryIsOk(9, 25, 0.9) == false);
 }
