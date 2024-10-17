@@ -24,6 +24,8 @@ void checkWarning(float value, float min, float max, const string& argument, str
 RangeResult isParametersInRange(float value, float min, float max, const string& argument) {
     RangeResult result = {true, ""};
     checkWarning(value, min, max, argument, result.message);
+
+    // Check for low and high bounds
     if (isMin(value, min)) {
         result.message += argument + " too low.\n";
         result.inRange = false;
@@ -32,6 +34,7 @@ RangeResult isParametersInRange(float value, float min, float max, const string&
         result.message += argument + " too high.\n";
         result.inRange = false;
     }
+
     return result;
 }
 
@@ -46,14 +49,17 @@ RangeResult isChargeRateOk(float chargeRate) {
 }
 
 bool batteryCheck(float temperature, float soc, float chargeRate) {
+    // Validate parameters individually
     RangeResult temperatureResult = isParametersInRange(temperature, 0, 45, "Temperature");
     RangeResult socResult = isParametersInRange(soc, 20, 80, "State of Charge");
     RangeResult chargeRateResult = isChargeRateOk(chargeRate);
 
+    // Print warnings for each result
     printWarning(temperatureResult);
     printWarning(socResult);
     printWarning(chargeRateResult);
 
+    // Return true only if all checks are in range
     return temperatureResult.inRange && socResult.inRange && chargeRateResult.inRange;
 }
 
